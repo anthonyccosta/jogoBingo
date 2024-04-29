@@ -23,7 +23,7 @@ void Bingo()
     CriarCartelas(cartelas, numeroJogadores);
 
     // Jogar até que alguém complete a cartela
-    while (!aVencedor)
+    while (!aVencedor) // Entra em um loop while que se repete até que um vencedor seja encontrado (aVencedor seja true)
     {
         // Sortear um novo número
         int novoNumero = SortearNumero(numerosSorteados, indiceNumeroSorteado);
@@ -52,8 +52,12 @@ void Bingo()
 // Criar cartelas para cada jogador
 void CriarCartelas(int[][][] cartelas, int numeroJogadores)
 {
-    Random roleta = new Random();
+    //  Gera as cartelas de bingo para cada jogador.
+    //  Utiliza um loop for para percorrer cada jogador, linha e coluna.
+    //  Gera um número aleatório entre numeroMinimo e numeroMaximo usando a Random.
+    //  Verifica se o número aleatório já está presente na cartela antes de adicioná - lo.
 
+    Random roleta = new Random();
     for (int jogador = 0; jogador < numeroJogadores; jogador++)
     {
         cartelas[jogador] = new int[numeroLinhas][];
@@ -79,6 +83,7 @@ void CriarCartelas(int[][][] cartelas, int numeroJogadores)
 // Sortear um novo número sem repetição
 int SortearNumero(int[] numerosSorteados, int indiceNumeroSorteado)
 {
+    // Gera um novo número aleatório e sem repetição
     Random roleta2 = new Random();
     int novoNumero;
 
@@ -93,7 +98,10 @@ int SortearNumero(int[] numerosSorteados, int indiceNumeroSorteado)
 // Marcar um número na cartela de um jogador
 void MarcarNumeroCartela(int[][][] cartelas, int numero, int numeroJogadores)
 {
-    for (int jogador = 0; jogador < numeroJogadores; jogador++)
+    // Marca o número sorteado nas cartelas de todos os jogadores.
+   //   Utiliza loops for para percorrer cada jogador, linha e coluna.
+   //  Se o número sorteado for encontrado na cartela, ele é substituído por - 1 para indicar que está marcado.
+        for (int jogador = 0; jogador < numeroJogadores; jogador++)
     {
         for (int linha = 0; linha < numeroLinhas; linha++)
         {
@@ -112,7 +120,7 @@ void MarcarNumeroCartela(int[][][] cartelas, int numero, int numeroJogadores)
 void VerificarLinhaColunaCompleta(int[][][] cartelas, int numeroJogadores, int[] pontuacaoJogadores)
 {
     bool linhaCompleta, colunaCompleta;
-
+    // Verifica se alguma linha ou coluna foi completada nas cartelas de cada jogador.
     // Verificar linhas completas para cada jogador
     for (int jogador = 0; jogador < numeroJogadores; jogador++)
     {
@@ -122,6 +130,7 @@ void VerificarLinhaColunaCompleta(int[][][] cartelas, int numeroJogadores, int[]
 
             for (int coluna = 0; coluna < numeroColunas; coluna++)
             {
+                // Verifica se todos os números da linha ou coluna estão marcados (-1).
                 if (cartelas[jogador][linha][coluna] != -1) // Número não marcado
                 {
                     linhaCompleta = false;
@@ -135,6 +144,7 @@ void VerificarLinhaColunaCompleta(int[][][] cartelas, int numeroJogadores, int[]
                 pontuacaoJogadores[jogador] += pontosLinha;
 
                 // Mostrar mensagem de linha completa
+                // Se uma linha ou coluna for completa, a pontuação do jogador é atualizada e uma mensagem é exibida na tela.
                 Console.WriteLine("\nJogador {0}: Linha {1} completa!", jogador + 1, linha + 1);
             }
         }
@@ -172,6 +182,7 @@ bool VerificarSeHaVencedor(int[][][] cartelas, int numeroJogadores)
 {
     bool temVencedor = false;
     int[] jogadoresVencedores = new int[numeroJogadores]; // Armazena os índices dos jogadores vencedores
+    // Verifica se algum jogador completou a cartela inteira.
 
     // Verificar se alguma cartela está completa
     for (int jogador = 0; jogador < numeroJogadores; jogador++)
@@ -182,6 +193,7 @@ bool VerificarSeHaVencedor(int[][][] cartelas, int numeroJogadores)
         {
             for (int coluna = 0; coluna < numeroColunas; coluna++)
             {
+                // Se todos os números da cartela estiverem marcados(-1), o jogador é considerado vencedor.
                 if (cartelas[jogador][linha][coluna] != -1)
                 {
                     cartelaCompleta = false;
@@ -219,11 +231,14 @@ bool VerificarSeHaVencedor(int[][][] cartelas, int numeroJogadores)
     {
         Console.WriteLine("\nAinda não há vencedor!");
     }
+    //A função retorna
     return temVencedor;
 }
 
 void ExibirCartelas(int[][][] cartelas, int numeroJogadores)
 {
+    // ExibirCartelas formata os números da cartela para melhor visualização.
+    // Exibe as cartelas de bingo atualizadas de todos os jogadores.
     for (int jogador = 0; jogador < numeroJogadores; jogador++)
     {
         Console.WriteLine("\n** Cartela do Jogador {0} **", jogador + 1);
@@ -241,6 +256,7 @@ void ExibirCartelas(int[][][] cartelas, int numeroJogadores)
 }
 void DeclararVencedores(int numeroJogadores, int[] pontuacaoJogadores)
 {
+    // Se outro jogador tiver a mesma pontuação máxima, a variável empate é definida como true.
     bool empate = true; // Verificar se há empate
 
     // Encontrar o jogador com maior pontuação
